@@ -15,7 +15,7 @@ function polygon(t, len, n)
 end
 
 function arc(t, r, angle)
-    arc_len = 2 * pi * r * angle / 360
+    arc_len = 2 * π * r * angle / 360
     n = trunc(arc_len / 3) + 1
 
     step_len = arc_len / n
