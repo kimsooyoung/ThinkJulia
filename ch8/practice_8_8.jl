@@ -1,0 +1,1 @@
+println(count(letter->(letter == 'a'), "banana"))
