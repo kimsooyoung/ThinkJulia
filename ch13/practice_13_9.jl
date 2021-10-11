@@ -47,5 +47,5 @@ end
 plot1 = plot(x,y)
 display(plot1)
 
-# # Add this line for keep plot alives.
+# Add this line for keep plot alives.
 readline()
