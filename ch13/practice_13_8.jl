@@ -35,7 +35,7 @@ function processmarkovline(line, dict, word_length, prior_in=[])
         # @show prior
         if prior ∈ keys(dict)
             push!(dict[prior], next)
-        else
+        elseif 
             dict[prior] = Set([next])
         end
         prior = next
@@ -59,9 +59,14 @@ function markov_analysis(hist, len)
 end
 
 my_dict = markov_mapping("emma.txt", 3)
+
+for (key, value) ∈ my_dict
+    println("$(key) $(value)")
+end
+
 # my_dict = markov_mapping("short_emma.txt", 3)
-result = markov_analysis(my_dict, 30)
-println(result)
+# result = markov_analysis(my_dict, 30)
+# println(result)
 
 # count = 0
 
