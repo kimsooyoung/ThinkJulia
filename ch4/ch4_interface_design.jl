@@ -111,27 +111,7 @@ md"""
 """
 
 # ╔═╡ b7a5a931-be47-4ee0-823e-4480e14ceaaf
-begin 
-	@svg begin
-		Drawing(600, 400, "./turtles.png")
-		origin()
-		background("midnightblue")
-		🐢 = Turtle() # you can type the turtle emoji with \:turtle:
-		Pencolor(🐢, "cyan")
-		Penwidth(🐢, 1.5)
-		n = 5
-		for i in 1:400
-		    global n
-		    Forward(🐢, n)
-		    Turn(🐢, 89.5)
-		    HueShift(🐢)
-		    n += 0.75
-		end
-		fontsize(20)
-		Message(🐢, "finished")
-		finish()
-	end
-end
+
 
 # ╔═╡ Cell order:
 # ╟─2a0ec542-f284-11ee-3c0b-6b17b56aeaa8
