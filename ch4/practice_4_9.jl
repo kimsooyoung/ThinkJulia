@@ -62,5 +62,5 @@ function flower(t, r, n)
 end
 
 @svg begin
-    flower(🐢, 100, 16)
+    flower(🐢, 100, 10)
 end
