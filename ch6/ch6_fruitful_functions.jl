@@ -327,7 +327,262 @@ md"""
 """
 
 # ╔═╡ ca3f3025-5157-403f-837f-38d545e63a4a
+md"""
+지금까지 배운 것들로 작성할 수 있는 예시를 준비해보았습니다. 
 
+함수에 있어 가장 프로그래밍적으로 괴랄하고 또 아름다운 것이 바로 재귀 함수인데요. 일전 (챕터 5 - 조건과 재귀)에서 살펴본 바도 있었습니다.
+
+이번 시간에 유익 함수를 배우게 됨으로 좀 더 다채로운 재귀 함수 구현이 가능하며 아래의 **팩토리얼**을 구현해보겠습니다.
+"""
+
+# ╔═╡ 7e50d869-34be-409d-bfbf-26a827a89be6
+md"""
+$\begin{equation} {n! = \begin{cases} 1& \textrm{if}\ n = 0 \\ n (n-1)!& \textrm{if}\ n > 0 \end{cases}} \end{equation}$
+"""
+
+# ╔═╡ aed7c8cc-d8d4-45d9-927d-1e73e2372e7b
+md"""
+팩토리얼 연산에서 $0!=1$이라고 간주합니다.
+
+따라서 $3!$의 경우 아래와 같이 연산되는 것이지요.
+
+$3! = 3*2!$
+$3! = 3*2*1!$
+$3! = 3*2*1*0!$
+$3! = 3*2*1*1 = 6$
+"""
+
+# ╔═╡ 107d3453-ff2f-4a6f-90b7-f4fbde85085e
+md"""
+이제 함수 **my_factorial**을 작성해보려 합니다. 
+
+- my_factorial 수 하나를 받아 그것의 ! 연산을 return하는 것이므로 1개의 정수 input과 1개의 정수 output을 갖게 됨을 알 수 있습니다.
+- 재귀 함수에서 주의할 점이자 가장 먼저 구현해야 하는 점은 무한 재귀가 발생하지 않도록 종료 조건을 구현하는 것입니다. my_factorial에서의 종료 조건은 $0!$에 도달했을 때입니다.
+
+이 두가지 조건을 고려한 코드는 다음과 같아집니다.
+
+```julia
+function my_factorial(n)
+	if n == 0
+		return 1
+	end
+end
+```
+"""
+
+# ╔═╡ 715c4ac8-1380-440f-9c1b-4a09c25f7a03
+md"""
+input n이 $0$이 아닌 경우, $n(n-1)!$을 return 하면 되겠지요. 여기서의 $(n-1)!$에도 팩토리얼 연산이 들어가게 되며 재귀로 구현해보면 아래와 같습니다.
+
+```julia
+function my_factorial(n)
+	if n == 0
+		return 1
+	else
+		return n * factorial(n-1)
+	end
+end
+```
+"""
+
+# ╔═╡ 8acd598b-f953-40c7-85ee-2e052116d7c1
+md"""
+이렇게 factorial의 구현을 유익함수와 재귀를 사용하여 손쉽게 구현해 보았습니다. 복잡한 조건식을 사용하지 않고 재귀를 통해 단 5줄만에 factorial을 구현한 것이지요.
+
+물론 고려해야 할 것도 많고, 항상 재귀를 사용할 수는 없지만 한번씩 직접 구현해보시는 것을 추천드립니다.
+"""
+
+# ╔═╡ 39f6266e-c83c-41aa-9c20-c45bb7ec71dd
+md"""
+!!! note
+	Julia에는 factorial 함수가 이미 내장되어 있긴 합니다 ^^;;
+"""
+
+# ╔═╡ cf6845dc-1f69-473a-b783-fe548d1c5032
+factorial(3)
+
+# ╔═╡ 3e1e315f-0270-4d49-bd94-6b8ec689d0d9
+md"""
+### 연습 6-1
+---
+재귀 함수를 연습할 수 있는 좋은 문제입니다. [피보나치 수](https://ko.wikipedia.org/wiki/%ED%94%BC%EB%B3%B4%EB%82%98%EC%B9%98_%EC%88%98)를 구현해보세요!
+
+$\begin{equation} {fib(n) = \begin{cases} 0& \textrm{if}\ n = 0 \\ 1& \textrm{if}\ n = 1 \\ fib(n-1) + fib(n-2)& \textrm{if}\ n > 1 \end{cases}} \end{equation}$
+
+"""
+
+# ╔═╡ 5c35ab10-0a2c-40f3-9217-31bcba331672
+md"""
+#### 6.6 자료형 검사
+"""
+
+# ╔═╡ 100b92b2-7747-4f16-9871-105273ed3496
+md"""
+> 일전 우리가 구현한 **my_factorial** 함수에 자연수가 아닌 실수를 넣게 되면 어떤 결과를 얻게 될까요?
+"""
+
+# ╔═╡ 0c997907-c394-4c0c-92b7-1d997dfedeb5
+function my_factorial(n)
+	if n == 0
+		return 1
+	else
+		return n * factorial(n-1)
+	end
+end
+
+# ╔═╡ c67e3878-4ec6-45c0-b85d-55220aa9fba1
+my_factorial(1.5)
+
+# ╔═╡ 11a5dbd6-e4ee-49ab-85aa-fab4301d6d6a
+my_factorial(-3)
+
+# ╔═╡ 8ba456a7-5f2c-4087-b6fb-f62a46468d97
+md"""
+똑똑한 Julia가 음수나 소수점을 가진 정수에 대해 위험성을 인지하고 Error을 알려주었습니다. 하지만 실제 완성도 있는 코드를 위해선 이러한 경우에 대해 모두 고려해주어야겠지요.
+
+이런 차원에서 유익함수의 input에 대한 **자료형 검사**를 하는 방법에 대해 알아봅시다.
+"""
+
+# ╔═╡ 8941c55c-879a-48b5-a4e6-a880045153b6
+function my_factorial2(n)
+	if !(n isa Int64)
+		error("Factorial is only defined for integers.")
+	elseif n < 0
+        error("Factorial is not defined for negative integers.")
+	elseif n == 0
+		return 1
+	else
+		return n * factorial(n-1)
+	end
+end
+
+# ╔═╡ 5bdc08c3-3005-42ae-8459-43a2b2764f90
+my_factorial2(1.5)
+
+# ╔═╡ adb7e81f-37b5-4130-94f3-003b679b6197
+my_factorial2(-5)
+
+# ╔═╡ 0610015b-3f6d-4607-ab2a-549b7972e3b8
+md"""
+- 변수의 타입 조건을 확인할 수 있는 키워드 **isa**와 not 연산자를 사용해 **n이 정수가 아닌 경우에 대한 조건**을 만들었습니다.
+- n이 0보다 작은 조건에 대해서도 판별했지요.
+
+개발자인 우리는 my_factorial에 이상한 input을 넣지 않겠지만, 우리는 항상 기상천외하고 떄로는 비정상적인 사용자들에 대해 대비해야 합니다. 그것이 아마추어를 넘은 프로의 세계이지요.
+"""
+
+# ╔═╡ aa8da543-9ca4-4f9e-bc69-f26f5426ec5b
+md"""
+#### 6.7 재귀 함수의 디버깅
+"""
+
+# ╔═╡ 42b5282c-688b-4bb1-9930-26b0d9a2802b
+md"""
+함수의 실행 결과 원하는 값을 얻지 못했다면, 크게 다음과 같이 세가지 가능성이 있습니다.
+
+1. 함수에 전달되는 인수의 문제 (전제 조건 위반)
+2. 함수 구현 중 문제 (후행 조건 위반)
+3. 함수 결과의 문제가 있거나, 사용 방식의 문제가 있는 경우
+
+따라서 실행 시 원하는 동작을 얻지 못하였다면 1번부터 차근차근 디버깅을 해보시길 추천드립니다. 디버깅을 하는 방법에는 여러 옵션들이 있지만 가장 보편적인 것은 함수 내 각 step에서 중간값을 출력(show 혹은 print)하는 것이지요. 
+"""
+
+# ╔═╡ aa1e2198-d50f-4cec-a3fe-6b9ea61de874
+function fact(n)
+    space = " " ^ (4 * n)
+    println(space, "factorial ", n)
+    if n == 0
+        println(space, "returning 1")
+        return 1
+    else
+        recurse = fact(n-1)
+        result = n * recurse
+        println(space, "returning ", result)
+        return result
+    end
+end
+
+# ╔═╡ 09d9d6b3-bce2-4f91-9e54-e0343382b11f
+md"""
+위 fact 함수를 보시면 각 코드 step마다 println을 사용한 모습을 볼 수 있습니다. 아래의 코드 실행 결과에서 보이듯이 한눈에 코드의 흐름을 알 수 있게 적절한 print들을 배치하였지요.
+"""
+
+# ╔═╡ 073f9abf-7934-4f80-96f2-6659ab0192ef
+fact(4)
+
+# ╔═╡ cf80b26c-afec-40bb-bab4-4fb417b84bbe
+md"""
+함수 실행의 흐름을 확실히 하고 싶다면 시간이 다소 소요되더라고 이렇게 디버깅 출력을 심어두는 것을 추천드립니다.
+"""
+
+# ╔═╡ 7583cd1a-8e4b-4fbc-ae51-757e68f9e761
+md"""
+### 연습 6-2
+---
+[아커만 함수](https://ko.wikipedia.org/wiki/%EC%95%84%EC%BB%A4%EB%A7%8C_%ED%95%A8%EC%88%98)는 다음과 같이 정의됩니다.
+
+$\begin{equation} {A(m, n) = \begin{cases} n+1& \textrm{if}\ m = 0 \\ A(m-1, 1)& \textrm{if}\ m > 0\ \textrm{and}\ n = 0 \\ A(m-1, A(m, n-1))& \textrm{if}\ m > 0\ \textrm{and}\ n > 0. \end{cases}} \end{equation}$
+
+
+
+아커만 함수 값을 계산하는 함수 **ack**를 작성하세요. 작성한 함수를 이용해 **ack(3, 4)**를 계산 하고 **125**가 맞는지 확인해봅시다. 더 큰 m과 n에 대해서는 어떤 일이 벌어지나요?
+"""
+
+# ╔═╡ d9f7f80a-e1f4-4cd5-9f23-be982ffa4940
+md"""
+### 연습 6-3
+---
+noon이나 redivider처럼 뒤에서부터 읽어도 앞에서부터 읽은 것과 같은 단어를 회문(palindrome) 이라고 합니다. 재귀적으로 말하자면, 어떤 단어의 첫 글자와 마지막 글자가 같고, 가운데 부분 이 회문이면 전체가 회문입니다.
+
+다음은 문자열 인수를 받아서 첫 글자, 마지막 글자, 중간 글자들을 돌려주는 함수입니다.
+
+```julia
+function first(word)
+    first = firstindex(word)
+    word[first]
+end
+
+function last(word)
+    last = lastindex(word)
+    word[last]
+end
+
+function middle(word)
+    first = firstindex(word)
+    last = lastindex(word)
+    word[nextind(word, first) : prevind(word, last)]
+end
+```
+"""
+
+# ╔═╡ 31a6c790-d84a-43f8-a789-91d06898714c
+md"""
+> 이 함수들 자체의 동작 원리는 8장에서 살펴보겠습니다.
+
+1. 이 함수들을 테스트해보세요. **middle** 함수에 두 글자로 이뤄진 문자열을 인수로 줘서 호 출하면 어떻게 됩니까? 한 글자는요? 아무 글자도 포함하지 않는 빈 문자열("")에 대해 서는 어떻습니까?
+2. 문자열 인수를 받아서 회문이면 true를, 아니면 false를 반환하는 **isapalindrome** 함수를 작성하세요. 문자열의 길이는 내장 함수 **length**로 알 수 있습니다.
+"""
+
+# ╔═╡ 6afe9012-d87f-479a-9aa2-4a1ad3ef987c
+md"""
+### 연습 6-4
+---
+어떤 수 $a$가 $b$의 거듭제곱이라 함은, $a$가 $b$로 나누어 떨어지고, $\frac{a}{b}$가 $b$의 거듭제곱이라는 뜻입니다. 매개변수 $a, b$를 받아 $a$가 $b$의 거듭제곱이면 true를 반환하는 함수 **ispower**를 작성하세요.
+
+!!! hint
+	종료 조건에 대해 먼저 생각해봐야 합니다.
+"""
+
+# ╔═╡ 53e77b3f-8108-4256-a3a5-2f637cf03dbc
+md"""
+### 연습 6-5
+---
+a와 b의 최대공약수 greatest common divisor (GCD)는 두 수를 나머지 없이 나누는 수(약수) 중에
+서 가장 큰 수를 가리킵니다.
+
+최대공약수를 찾는 방법 중 하나는, a를 b로 나눈 나머지를 라고 할 때 **gcd(a, b)= gcd(b, r)**이 성립한다는 사실에 기반합니다. 종료 조건으로는 **gcd(a, 0)= a**를 사용할 수 있습니다. 
+
+a, b를 매개변수로 받아 최대공약수를 반환하는 함수 gcd를 작성하세요.
+"""
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -604,7 +859,36 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╟─534ed355-9b52-407a-933d-34b8313b18e5
 # ╠═c19b2a7a-d7cf-4250-a55d-7badca96977c
 # ╠═4946a05c-4990-4db2-a4cb-ea6080146984
-# ╠═9239a271-c2e7-4fb6-b0d5-020d1f289465
-# ╠═ca3f3025-5157-403f-837f-38d545e63a4a
+# ╟─9239a271-c2e7-4fb6-b0d5-020d1f289465
+# ╟─ca3f3025-5157-403f-837f-38d545e63a4a
+# ╟─7e50d869-34be-409d-bfbf-26a827a89be6
+# ╟─aed7c8cc-d8d4-45d9-927d-1e73e2372e7b
+# ╟─107d3453-ff2f-4a6f-90b7-f4fbde85085e
+# ╟─715c4ac8-1380-440f-9c1b-4a09c25f7a03
+# ╟─8acd598b-f953-40c7-85ee-2e052116d7c1
+# ╟─39f6266e-c83c-41aa-9c20-c45bb7ec71dd
+# ╠═cf6845dc-1f69-473a-b783-fe548d1c5032
+# ╟─3e1e315f-0270-4d49-bd94-6b8ec689d0d9
+# ╟─5c35ab10-0a2c-40f3-9217-31bcba331672
+# ╟─100b92b2-7747-4f16-9871-105273ed3496
+# ╠═0c997907-c394-4c0c-92b7-1d997dfedeb5
+# ╠═c67e3878-4ec6-45c0-b85d-55220aa9fba1
+# ╠═11a5dbd6-e4ee-49ab-85aa-fab4301d6d6a
+# ╟─8ba456a7-5f2c-4087-b6fb-f62a46468d97
+# ╠═8941c55c-879a-48b5-a4e6-a880045153b6
+# ╠═5bdc08c3-3005-42ae-8459-43a2b2764f90
+# ╠═adb7e81f-37b5-4130-94f3-003b679b6197
+# ╠═0610015b-3f6d-4607-ab2a-549b7972e3b8
+# ╟─aa8da543-9ca4-4f9e-bc69-f26f5426ec5b
+# ╟─42b5282c-688b-4bb1-9930-26b0d9a2802b
+# ╠═aa1e2198-d50f-4cec-a3fe-6b9ea61de874
+# ╟─09d9d6b3-bce2-4f91-9e54-e0343382b11f
+# ╠═073f9abf-7934-4f80-96f2-6659ab0192ef
+# ╟─cf80b26c-afec-40bb-bab4-4fb417b84bbe
+# ╟─7583cd1a-8e4b-4fbc-ae51-757e68f9e761
+# ╟─d9f7f80a-e1f4-4cd5-9f23-be982ffa4940
+# ╟─31a6c790-d84a-43f8-a789-91d06898714c
+# ╟─6afe9012-d87f-479a-9aa2-4a1ad3ef987c
+# ╟─53e77b3f-8108-4256-a3a5-2f637cf03dbc
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
